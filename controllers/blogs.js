@@ -7,13 +7,13 @@ router.get('/', async (req, res) => {
     res.json(blogs)
   })
   
-  router.post('/', async (req, res) => {
+  router.post('/', async (req, res, next) => {
     try {
       console.log(req.body)
     const blog = await models.Blog.create(req.body)
     return res.json(blog)
     } catch(error) {
-      return res.status(400).json({error})
+      next(error)
     }
   })
   
@@ -25,6 +25,23 @@ router.get('/', async (req, res) => {
       }
     })
     res.status(200).end()
+  })
+
+  router.put('/:id', async (req, res, next) => {
+    try {
+    blog = await models.Blog.findByPk(req.params.id)
+
+    if (blog) {
+        blog.likes = req.body.likes
+        await blog.save()
+        res.json(blog)
+    } else {
+        res.status(404).end
+    }
+    } catch(error) {
+        next(error)
+    }
+
   })
 
   module.exports = router
