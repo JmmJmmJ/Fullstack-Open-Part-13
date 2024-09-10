@@ -20,7 +20,11 @@ const tokenExtractor = (req, res, next) => {
 }
 
 router.get('/', async (req, res) => {
-  const blogs = await models.Blog.findAll()
+  const blogs = await models.Blog.findAll({
+    include: {
+      model: models.User
+    }
+  })
   res.json(blogs)
 })
 
