@@ -7,13 +7,13 @@ router.get('/', async (req, res) => {
   res.json(users)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
     const user = await models.User.create(req.body)
     res.json(user)
   } catch(error) {
-    return res.status(400).json({ error })
-  }
+    next(error)
+}
 })
 
 router.put('/:username', async (req, res, next) => {
