@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMkBhYjEyLm5ldCIsImlkIjoyLCJpYXQiOjE3MjU5NTM2MjZ9.uMZi69R9a0VfB9g-6U4Xw8JVUgiwTkE6DJfwjYX5qoo
+
+  {
+    "author": "Jmm",
+    "url": "/blog10",
+    "title": "Linux",
+    "likes": 78
+  }
