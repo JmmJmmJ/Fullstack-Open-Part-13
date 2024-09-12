@@ -25,11 +25,25 @@ Blog.init({
   likes: {
     type: DataTypes.INTEGER,
     defaultValue: 0
-  }
+  },
+  year: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    validate: {
+      customValidator(value) {
+        if (value < 1991) {
+          throw new Error("year must be atleast 1991");
+        } else if (value > new Date().getFullYear()) {
+          throw new Error("year can't be from the future");
+        }
+      }
+    }
+  },
+  
 }, {
   sequelize,
   underscored: true,
-  timestamps: false,
+  timestamps: true,
   modelName: 'blog'
 })
 
