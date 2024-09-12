@@ -10,27 +10,13 @@ module.exports = {
       },
       user_id: {
         type: DataTypes.INTEGER,
-        references: {
-          model: "users",
-          key: "id"
-        }
-      }
-    })
-    await queryInterface.createTable('memberships', {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+        allowNull: false,
+        references: { model: 'users', key: 'id' },
       },
       blog_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: { model: 'blogs', key: 'id' },
-      },
-      readinglist_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: { model: 'readinglists', key: 'id' },
       },
       read: {
         type: DataTypes.BOOLEAN,
@@ -40,6 +26,5 @@ module.exports = {
   },
   down: async ({ context: queryInterface }) => {
     await queryInterface.dropTable('readinglists')
-    await queryInterface.dropTable('memberships')
   },
 }

@@ -12,6 +12,25 @@ router.get('/', async (req, res) => {
   res.json(users)
 })
 
+router.get('/:id', async (req, res, next) => {
+  try {
+  const users = await models.User.findOne({
+    attributes: ['username', 'name'],
+    where: {
+      id: req.params.id,
+    },
+    include: {
+      model: models.Blog,
+      as: 'reading',
+      attributes: ['id', 'author', 'url', 'title', 'likes', 'year']
+    },
+  })
+  res.json(users)
+} catch(error) {
+  next(error)
+}
+})
+
 router.post('/', async (req, res, next) => {
   try {
     const user = await models.User.create(req.body)
