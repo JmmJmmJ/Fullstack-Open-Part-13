@@ -1,11 +1,11 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMkBhYjEyLm5ldCIsImlkIjoxLCJpYXQiOjE3MjYxMjc0MzR9.H_inftR_-uNKkpP--R-TZqz3BhCfXZFdI3tSm7_sOuQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxMkBhYjEyLm5ldCIsImlkIjoxLCJpYXQiOjE3MjYxMzY5OTZ9.CoZCIj79viahssjiDH3LAbaPjDxDqcEpAT9CbhbJbis
 
   {
     "author": "Jmm",
     "url": "/blog1",
     "title": "Linux",
-    "likes": 78,
-    "year": 1991
+    "likes": 72,
+    "year": 1997
   }
