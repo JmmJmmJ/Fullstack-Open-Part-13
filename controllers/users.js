@@ -6,6 +6,7 @@ router.get('/', async (req, res) => {
   const users = await models.User.findAll({
     include: [{
       model: models.Blog,
+      as: 'reading',
     },
   ]
   })
@@ -22,9 +23,13 @@ router.get('/:id', async (req, res, next) => {
     include: {
       model: models.Blog,
       as: 'reading',
-      attributes: ['id', 'author', 'url', 'title', 'likes', 'year']
-    },
+      attributes: ['id', 'author', 'url', 'title', 'likes', 'year'],
+      through: {
+        attributes: ['id','read' ]
+      }
+    }, 
   })
+  console.log(users.reading)
   res.json(users)
 } catch(error) {
   next(error)
