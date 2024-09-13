@@ -33,7 +33,11 @@ router.put('/:id', async (req, res, next) => {
     })
 
     if (!token || !decodedToken.id || !session) {
-      return response.status(401).json({ error: "token missing or invalid" });
+      return res.status(401).json({ error: "Token missing or invalid" });
+    }
+
+    if (decodedToken.disabled) {
+      return res.status(401).json({ error: "Account disabled" });
     }
 
     lista = await models.Readinglist.findByPk(req.params.id)
@@ -42,7 +46,7 @@ router.put('/:id', async (req, res, next) => {
       await lista.save()
       res.json(lista)
     } else {
-      return response.status(400).json({ error: "can't find" });
+      return res.status(400).json({ error: "can't find" });
     }
 
   } catch (error) {
