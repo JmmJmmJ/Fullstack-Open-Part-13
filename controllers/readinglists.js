@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const { SECRET } = require('../util/config')
 const models = require('../models')
+const Session = require('../models/session')
 const jwt = require('jsonwebtoken')
 
 const getTokenFrom = (request) => {
@@ -24,7 +25,14 @@ router.put('/:id', async (req, res, next) => {
   try {
     const token = getTokenFrom(req)
     const decodedToken = jwt.verify(token, SECRET);
-    if (!token || !decodedToken.id) {
+
+    const session = await Session.findOne({
+      where: {
+        token: token
+      }
+    })
+
+    if (!token || !decodedToken.id || !session) {
       return response.status(401).json({ error: "token missing or invalid" });
     }
 
