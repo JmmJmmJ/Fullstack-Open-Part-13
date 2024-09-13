@@ -2,6 +2,7 @@ const router = require('express').Router()
 const jwt = require('jsonwebtoken')
 const { SECRET } = require('../util/config')
 const models = require('../models')
+const Session = require('../models/session')
 const { Op } = require('sequelize');
 
 const tokenExtractor = (req, res, next) => {
@@ -49,9 +50,25 @@ router.get('/', async (req, res) => {
 }
 })
 
-router.post('/', tokenExtractor, async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
-    const user = await models.User.findByPk(req.decodedToken.id)
+    const token = getTokenFrom(req)
+    const decodedToken = jwt.verify(token, SECRET);
+    const session = await Session.findOne({
+      where: {
+        token: token
+      }
+    })
+
+    if (!token || !decodedToken.id || !session) {
+      return res.status(401).json({ error: "Token missing or invalid" });
+    }
+
+    if (decodedToken.disabled) {
+      return res.status(401).json({ error: "Account disabled" });
+    }
+
+    const user = await models.User.findByPk(decodedToken.id)
     const blog = await models.Blog.create({ ...req.body, userId: user.id })
     return res.json(blog)
   } catch (error) {
@@ -71,8 +88,18 @@ router.delete('/:id', async (req, res, next) => {
   try {
     const token = getTokenFrom(req)
     const decodedToken = jwt.verify(token, SECRET);
-    if (!token || !decodedToken.id) {
-      return response.status(401).json({ error: "token missing or invalid" });
+    const session = await Session.findOne({
+      where: {
+        token: token
+      }
+    })
+
+    if (!token || !decodedToken.id || !session) {
+      return res.status(401).json({ error: "Token missing or invalid" });
+    }
+
+    if (decodedToken.disabled) {
+      return res.status(401).json({ error: "Account disabled" });
     }
 
     const id = req.params.id

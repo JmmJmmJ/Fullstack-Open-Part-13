@@ -4,8 +4,8 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc
 
   {
     "author": "Jmm",
-    "url": "/blog3",
-    "title": "Test",
+    "url": "/blog4",
+    "title": "Linux",
     "likes": 7,
     "year": 1997
   }
